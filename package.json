@@ -1,0 +1,54 @@
+{
+  "name": "em-todo",
+  "author": "Eduardo Echeverria @eddiemachete",
+  "description": "TypeScript implementation of the use Redux’s Todo list example using Clean Architecture concepts",
+  "homepage": "https://github.com/EddieMachete/em-todo/",
+  "license": "https://github.com/EddieMachete/em-todo/blob/master/LICENSE",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EddieMachete/em-todo.git"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/karma start"
+  },
+  "types": [
+    "./dist/boundaries.d.ts",
+    "./dist/domain.d.ts",
+    "./dist/usecases.d.ts"
+  ],
+  "keywords": [
+    "todo",
+    "clean architecture",
+    "typescript"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^2.2.2",
+    "dts-generator": "^2.1.0",
+    "es6-promise": "^4.1.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-tslint": "^8.0.0",
+    "gulp-typescript": "^3.1.6",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-requirejs": "^1.1.0",
+    "karma-typescript": "^3.0.1",
+    "merge2": "^1.0.3",
+    "phantomjs": "^2.1.7",
+    "phantomjs-polyfill-object-assign": "0.0.2",
+    "requirejs": "^2.3.3",
+    "run-sequence": "^1.2.2",
+    "tslint": "^5.1.0",
+    "typescript": "^2.2.2"
+  },
+  "version": "0.0.1"
+}

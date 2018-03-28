@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "lib": [
+          "dom",
+          "es6",
+          "ScriptHost"
+        ],
+        "module": "es6",
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "noImplicitAny": false,
+        "outDir": "./dist",
+        "removeComments": true,
+        "sourceMap": false,
+        "target": "es6"
+    },
+    "files": [
+        "./core/domain.ts",
+        "./core/boundaries.ts",
+        "./core/usecases.ts"
+    ]
+}

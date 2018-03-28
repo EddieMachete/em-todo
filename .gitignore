@@ -1,0 +1,7 @@
+# Untracked files
+npm-debug.log
+
+node_modules/
+coverage/
+bower_components/
+dist/

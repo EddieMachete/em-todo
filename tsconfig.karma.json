@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "lib": [
+            "dom",
+            "es2015",
+            "ScriptHost"
+        ],
+        "module": "amd",
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "noImplicitAny": false,
+        "outDir": "./dist",
+        "removeComments": false,
+        "sourceMap": false,
+        "target": "es5"
+    },
+    "include": [
+        "./core/**/*.ts"
+    ]
+}
