@@ -15,7 +15,6 @@ I will continue the latest trend of writing an example that implements a Todo li
 
 
 # Getting Started
-1. Make sure you have access to our npm stream by adding our key to your local *.npmrc* file.  Ask the team if you do not know what that means.
 1. `nvm use v6.11.3`
 2. `git clone https://github.com/EddieMachete/em-todo.git`
 3. `npm install`
