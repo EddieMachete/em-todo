@@ -59,7 +59,7 @@ export class ViewTodoListUseCase {
                 ViewTodoListUseCase.filterAndSortTodoList(todos, filter, sortingMechanism, sortAscending);
 
             // 6. The system updates the application state with the curated todo list.
-            return this.dataStoreProvider.updateTodoList(sortedTodos);
+            return this.dataStoreProvider.updateTodoList(sortedTodos, filter, sortingMechanism, sortAscending);
         })
         .catch(reason => {
             this.dataStoreProvider.logError(ViewTodoListUseCase.is + ' :: ' + reason);

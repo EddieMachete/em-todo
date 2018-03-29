@@ -10,8 +10,10 @@ Author: Eduardo Echeverria @eddiemachete
 import { Todo } from '../domain';
 
 export interface iDataStoreProvider {
+    addTodo(todo:Todo):Promise<void>
     getStore():Promise<any>;
     logError(message:string):Promise<void>
     setStatusTo(status:string):Promise<void>
-    updateTodoList(todos:Todo[]):Promise<void>
+    updateTodo(todo:Todo):Promise<void>
+    updateTodoList(todos:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean):Promise<void>
 }

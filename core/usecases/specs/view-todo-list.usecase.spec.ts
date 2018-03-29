@@ -107,7 +107,7 @@ describe('View todo list usecase', function () {
                 return Promise.resolve();
             });
         
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[]) => {
+        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
             todos = ts;
             return Promise.resolve();
         });
@@ -166,7 +166,7 @@ describe('View todo list usecase', function () {
                 return Promise.resolve();
             });
         
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[]) => {
+        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
             todos = ts;
             return Promise.resolve();
         });
@@ -225,7 +225,7 @@ describe('View todo list usecase', function () {
                 return Promise.resolve();
             });
         
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[]) => {
+        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
             todos = ts;
             return Promise.resolve();
         });
@@ -278,7 +278,7 @@ describe('View todo list usecase', function () {
                 return Promise.resolve();
             });
         
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[]) => {
+        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
             todos = ts;
             return Promise.resolve();
         });
@@ -331,7 +331,7 @@ describe('View todo list usecase', function () {
                 return Promise.resolve();
             });
         
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[]) => {
+        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
             todos = ts;
             return Promise.resolve();
         });
@@ -384,7 +384,7 @@ describe('View todo list usecase', function () {
                 return Promise.resolve();
             });
         
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[]) => {
+        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
             todos = ts;
             return Promise.resolve();
         });

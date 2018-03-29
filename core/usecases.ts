@@ -12,4 +12,6 @@ Author: Eduardo Echeverria @eddiemachete
  * @description Contains all of the boundary definitions for building solutions compatible with the em-todo core library.
  */
 
+export { AddTodoUseCase } from './usecases/add-todo.usecase';
+export { ToggleTodoUseCase } from './usecases/toggle-todo.usecase';
 export { ViewTodoListUseCase } from './usecases/view-todo-list.usecase';

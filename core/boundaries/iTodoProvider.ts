@@ -10,5 +10,7 @@ Author: Eduardo Echeverria @eddiemachete
 import { Todo } from '../domain';
 
 export interface iTodoProvider {
+    addTodo(todo:Todo):Promise<Todo>
     getTodoList():Promise<Todo[]>
+    updateTodo(todo:Todo):Promise<Todo>
 }
