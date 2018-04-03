@@ -1,32 +1,13 @@
 {
   "name": "em-todo",
   "author": "Eduardo Echeverria @eddiemachete",
-  "description": "TypeScript implementation of the use Redux’s Todo list example using Clean Architecture concepts",
-  "homepage": "https://github.com/EddieMachete/em-todo/",
-  "license": "https://github.com/EddieMachete/em-todo/blob/master/LICENSE",
-  "main": "index.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/EddieMachete/em-todo.git"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/karma start"
-  },
-  "types": [
-    "./dist/boundaries.d.ts",
-    "./dist/domain.d.ts",
-    "./dist/usecases.d.ts"
-  ],
-  "keywords": [
-    "todo",
-    "clean architecture",
-    "typescript"
-  ],
   "dependencies": {},
+  "description": "TypeScript implementation of the use Redux’s Todo list example using Clean Architecture concepts",
   "devDependencies": {
     "del": "^2.2.2",
     "dts-generator": "^2.1.0",
     "es6-promise": "^4.1.0",
+    "express": "^4.16.3",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
@@ -50,5 +31,26 @@
     "tslint": "^5.1.0",
     "typescript": "^2.2.2"
   },
+  "homepage": "https://github.com/EddieMachete/em-todo/",
+  "keywords": [
+    "todo",
+    "clean architecture",
+    "typescript"
+  ],
+  "license": "https://github.com/EddieMachete/em-todo/blob/master/LICENSE",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EddieMachete/em-todo.git"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "./node_modules/.bin/karma start"
+  },
+  "types": [
+    "./dist/boundaries.d.ts",
+    "./dist/domain.d.ts",
+    "./dist/usecases.d.ts"
+  ],
   "version": "0.0.1"
 }

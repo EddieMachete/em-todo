@@ -1,0 +1,214 @@
+<!--
+@license
+Copyright (c) 2018 Eduardo Echeverria. All rights reserved.
+This code may only be used under the MIT license found at https://github.com/EddieMachete/em-todo/blob/master/LICENSE
+Author: Eduardo Echeverria @eddiemachete
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <title>Browser console demo :: em-todo</title>
+    <style>
+        body {
+            font-family: 'Roboto', 'Noto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <h3>&lt;em-todo-web-console-app&gt;</h3>
+    </div>
+    <script type="module">
+        'use strict';
+        
+        import { AddTodoUseCase , ToggleTodoUseCase , ViewTodoListUseCase } from '../dist/usecases';
+
+        /**
+         * This is the implementation of em-todo.core.boundaries.iDataStoreProvider.
+         * Nothing interesting is being done here.
+         * We initialize the app with an empty array and add to it using the addTodo method.
+         * In this class, however, is where we can add access to a database or local storage.
+        */
+        class TodoProvider {
+            constructor() {
+                this.todoList = [];
+            }
+
+            addTodo(todo) {
+                this.todoList.push(todo);
+                return Promise.resolve(todo);
+            }
+
+            getTodoList() { return Promise.resolve(this.todoList.slice(0)); }
+
+            updateTodo(todo) { return Promise.resolve(todo); }
+        }
+
+        /**
+         * Console app that uses em-todo.core.usecases.
+         * It implements em-todo.core.boundaries.iDataStoreProvider.
+         * Nothing special is being currently done when updating the application data store.
+         * Something like Redux could be easily added to handle the state requests.
+        */
+        // 
+        class App {
+            constructor() {
+                this.currentAction = '';
+                this.busy = false;
+
+                this.todos = [];
+                this.filter = '';
+                this.sortingMechanism = '';
+                this.sortAscending = true;
+                this.status = '';
+                
+                this.todoProvider = new TodoProvider();
+            }
+            
+            /**
+             * Displays, on the console, a list of all of the todos entered, from newer to older.
+            */ 
+            showTodos() {
+                if (this.busy)
+                    return;
+
+                this.currentAction = 'showing-todos';
+                this.busy = true;
+
+                new ViewTodoListUseCase(this, this.todoProvider)
+                .execute('all', 'date-created', true);
+            }
+            
+            /**
+             * Displays, on the console, only the pendig todos entered, from newer to older.
+            */ 
+            showPendingTodos() {
+                if (this.busy)
+                    return;
+
+                this.currentAction = 'showing-todos';
+                this.busy = true;
+
+                new ViewTodoListUseCase(this, this.todoProvider)
+                .execute('pending', 'date-created', true);
+            }
+            
+            /**
+             * Adds a new todo to the list.
+             * @param {string} description
+            */ 
+            createTodo(description) {
+                if (this.busy)
+                    return;
+
+                this.currentAction = 'creating-todo';
+                this.busy = true;
+                new AddTodoUseCase(this, this.todoProvider)
+                .execute(description);
+            }
+            
+            /**
+             * Switches the done flag of the todo at the specified position.
+             * @param {number} position Must be a number between 1 and the length of the todo list.
+            */ 
+            toggleTodoAtPosition(position) {
+                if (this.busy)
+                    return;
+
+                if (position < 1 || position > this.todos.length)
+                    return;
+                
+                this.currentAction = 'toggling-todo';
+                this.busy = true;
+                
+                new ToggleTodoUseCase(this, this.todoProvider)
+                .execute(this.todos[position - 1]);
+            }
+
+            // #region iDataStoreProvider Methods
+            
+            /**
+             * Adds a new Todo to the application data store.
+             * @param {Todo} todo 
+             * @return {Promise<void>}
+            */
+            addTodo(todo) {
+                this.todos.shift(todo);
+                return Promise.resolve();
+            }
+            
+            getStore() { return Promise.resolve(); }
+
+            /**
+             * Displays an error message on the console.
+             * @param {string} message
+             * @return {Promise<void>}
+            */
+            logError(message) {
+                console.log(`ERROR: ${message}`);
+                return Promise.resolve();
+            }
+            
+            /**
+             * Updates the application status.
+             * @param {string} status
+             * @return {Promise<void>}
+            */
+            setStatusTo(status) {
+                //console.log(status);
+
+                if (status !== 'ready')
+                    return Promise.resolve();
+                
+                if (this.currentAction === 'creating-todo' || this.currentAction === 'toggling-todo')
+                    setTimeout(() => this.showTodos(), 60);
+
+                this.currentAction = '';
+                this.busy = false;
+
+                return Promise.resolve();
+            }
+
+            /**
+             * @param {Todo} todo
+             * @return {Promise<void>}
+            */
+            updateTodo(todo) { return Promise.resolve(); }
+
+            /**
+             * @param {Array} todos
+             * @param {string} filter
+             * @param {string} sortingMechanism
+             * @param {boolean} sortAscending
+             * @return {Promise<void>}
+            */
+            updateTodoList(todos, filter, sortingMechanism, sortAscending) {
+                this.todos = todos;
+
+                if (todos.length === 0) {
+                    console.log('You have no outstanding tasks. Well done!');
+                    return;
+                }
+
+                for (let i=0; i<this.todos.length; i++) {
+                    const todo = todos[i];
+                    console.log(`${i+1}. ${todo.done ? '✔️' : '  '} ${todo.description}`);
+                }
+
+                return Promise.resolve();
+            }
+
+            // #endregion
+        }
+
+        window.app = new App();
+        app.showTodos();
+    </script>
+</body>
+</html>

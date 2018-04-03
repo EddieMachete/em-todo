@@ -23,6 +23,19 @@ I will continue the latest trend of writing an example that implements a Todo li
 To build, run `tsc`
 To test run `npm test`
 
-## Demo
+## web-console-app demo
+To start the web console demo app run:
+1. `nvm use v6.11.3`
+2. `npm install`
+3. `npm start`
+4. Once the app is running, open `http://localhost:9000/web-console-app/index.html` on Google Chrome.
+5. Open the developer console.
+
+You can type the following methods into the console:
+* `app.createTodo(description:string)`
+* `app.showTodos()`
+* `app.showPendingTodos()`
+* `app.toggleTodoAtPosition(position:number)`
+
 
 ## Contribute

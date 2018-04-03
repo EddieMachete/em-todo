@@ -4,14 +4,14 @@
         "lib": [
           "dom",
           "es6",
-          "ScriptHost"
+          "scripthost"
         ],
         "module": "es6",
         "moduleResolution": "node",
         "noEmitOnError": true,
         "noImplicitAny": false,
         "outDir": "./dist",
-        "removeComments": true,
+        "removeComments": false,
         "sourceMap": false,
         "target": "es6"
     },
