@@ -11,11 +11,11 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import { iTodoProvider } from 'em-todo-core/boundaries';
+import { ITodoProvider } from 'em-todo-core/boundaries';
 import { Todo } from 'em-todo-core/domain';
 
 @Injectable()
-export class TodoProvider implements iTodoProvider {
+export class TodoProvider implements ITodoProvider {
     static get is() {
         return 'em-todo-ionic-app.TodoProvider';
     }

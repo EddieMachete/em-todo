@@ -8,14 +8,14 @@ Author: Eduardo Echeverria @eddiemachete
 'use strict';
 
 import { Injectable } from '@angular/core';
-import { iDataStoreProvider } from 'em-todo-core/boundaries';
+import { IDataStoreProvider } from 'em-todo-core/boundaries';
 import { Todo } from 'em-todo-core/domain';
 import { Store } from '@ngrx/store';
 import { UIStateActions } from '../store/actions';
 import { AppStore } from '../store/app-store';
 
 @Injectable()
-export class AppStoreProvider implements iDataStoreProvider {
+export class AppStoreProvider implements IDataStoreProvider {
     constructor(
         private appStore: Store<AppStore>,
         private uiStateActions: UIStateActions
