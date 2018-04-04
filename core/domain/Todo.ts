@@ -9,13 +9,11 @@ Author: Eduardo Echeverria @eddiemachete
 
 export class Todo {
     public static get is(): string {
-        return "em-todo-core-domain.Todo";
+        return 'em-todo-core-domain.Todo';
     }
 
-    public dateCreated:Date;
-    public description:string;
-    public done:boolean = false;
-    public dueDate:Date;
-
-    public constructor() { }
+    public dateCreated: Date;
+    public description: string;
+    public done: boolean = false;
+    public dueDate: Date;
 }

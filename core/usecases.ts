@@ -9,7 +9,7 @@ Author: Eduardo Echeverria @eddiemachete
 
 /**
  * @module em-todo-core-usecases
- * @description Contains all of the boundary definitions for building solutions compatible with the em-todo core library.
+ * @description Business logic for the em-todo applications.
  */
 
 export { AddTodoUseCase } from './usecases/add-todo.usecase';

@@ -7,30 +7,30 @@ Author: Eduardo Echeverria @eddiemachete
 
 'use strict';
 
-import { iDataStoreProvider, iTodoProvider } from '../boundaries'
+import { IDataStoreProvider, ITodoProvider } from '../boundaries';
 import { Todo } from '../domain';
 
 /**
-* 'ToggleTodoUseCase' contains the business logic to load and display a list of todo items.
-* Steps:
-* 1. Our busy developer selects a todo be toggled.
-* 2. The system sets the application status to 'toggling-todo'.
-* 3. The system switches the todo's `done` flag.
-* 4. The system persists the change to the data storage.
-* 5. The system updates the application state.
-* 6. The system sets the application status to 'ready'.
-*/
+ * 'ToggleTodoUseCase' contains the business logic to load and display a list of todo items.
+ * Steps:
+ * 1. Our busy developer selects a todo be toggled.
+ * 2. The system sets the application status to 'toggling-todo'.
+ * 3. The system switches the todo's `done` flag.
+ * 4. The system persists the change to the data storage.
+ * 5. The system updates the application state.
+ * 6. The system sets the application status to 'ready'.
+ */
 
 export class ToggleTodoUseCase {
     static get is() { return 'em-todo-core.ToggleTodoUseCase'; }
 
     /**
-     * @param {iDataStoreProvider} dataStoreProvider
-     * @param {iTodoProvider} todoProvider
+     * @param {IDataStoreProvider} dataStoreProvider
+     * @param {ITodoProvider} todoProvider
      */
     public constructor(
-        private dataStoreProvider:iDataStoreProvider,
-        private todoProvider:iTodoProvider
+        private dataStoreProvider: IDataStoreProvider,
+        private todoProvider: ITodoProvider
     ) {}
 
     /**
@@ -38,21 +38,21 @@ export class ToggleTodoUseCase {
      * @param {Todo} todo
      */
     // 1. Our busy developer selects a todo be toggled.
-    public execute(todo:Todo):void {
+    public execute(todo: Todo): void {
         // 2. The system sets the application status to 'toggling-todo'.
         this.dataStoreProvider.setStatusTo('toggling-todo')
         .then(() => {
             // 3. The system switches the todo's `done` flag.
             todo.done = !todo.done;
-            
+
             // 4. The system persists the change to the data storage.
             return this.todoProvider.updateTodo(todo);
         })
-        .then((todo:Todo) =>
+        .then((t: Todo) =>
             // 5. The system updates the application state.)
-            this.dataStoreProvider.updateTodo(todo)
+            this.dataStoreProvider.updateTodo(t)
         )
-        .catch(reason => {
+        .catch((reason) => {
             this.dataStoreProvider.logError(ToggleTodoUseCase.is + ' :: ' + reason);
         })
         // .finally(() => does not seem to be available yet

@@ -9,38 +9,39 @@ Author: Eduardo Echeverria @eddiemachete
 
 'use strict';
 
-import { iDataStoreProvider, iTodoProvider } from '../../boundaries';
-import { AddTodoUseCase } from '../../usecases';
-import { Todo } from '../../domain';
 import { Promise } from 'es6-promise'; // Polyfill promise as PhantomJS is still missing it [2017-06-14]
+import { IDataStoreProvider, ITodoProvider } from '../../boundaries';
+import { Todo } from '../../domain';
+import { AddTodoUseCase } from '../../usecases';
 
-describe('Add todo usecase', function () {
+describe('Add todo usecase', () => {
     // The promise polyfill works in the spec files but not inside the actual app files.
     // Double polyfill.
     window['Promise'] = Promise;
-    
+
     // ------------------------------
     // --- CAN ADD A NEW TODO -------
     // ------------------------------
-    it('can add a new todo', function (done) {
+    it('can add a new todo', (done) => {
         // Arrange
-        const statusCalled:string[] = [];
-        let newTodo:Todo = null;
+        const statusCalled: string[] = [];
+        let newTodo: Todo = null;
 
         // #region iDataStoreProvider
         const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'addTodo']);
-        
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.addTodo.and.callFake((todo:Todo) => {
+
+        dataStoreProvider.addTodo.and.callFake((todo: Todo) => {
             newTodo = todo;
             return Promise.resolve();
         });
@@ -49,16 +50,16 @@ describe('Add todo usecase', function () {
 
         // #region iTodoProvider
         const todoProvider = jasmine.createSpyObj('iTodoProvider', ['addTodo']);
-        todoProvider.addTodo.and.callFake((todo:Todo) => {
+        todoProvider.addTodo.and.callFake((todo: Todo) => {
             return Promise.resolve(todo);
         });
         // #endregion
 
-        const useCase:AddTodoUseCase = new AddTodoUseCase(dataStoreProvider, todoProvider);
+        const useCase: AddTodoUseCase = new AddTodoUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute('New todo');
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(2);

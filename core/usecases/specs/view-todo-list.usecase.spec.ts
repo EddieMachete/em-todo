@@ -9,121 +9,126 @@ Author: Eduardo Echeverria @eddiemachete
 
 'use strict';
 
-import { iDataStoreProvider, iTodoProvider } from '../../boundaries';
-import { ViewTodoListUseCase } from '../../usecases';
-import { Todo } from '../../domain';
 import { Promise } from 'es6-promise'; // Polyfill promise as PhantomJS is still missing it [2017-06-14]
+import { IDataStoreProvider, ITodoProvider } from '../../boundaries';
+import { Todo } from '../../domain';
+import { ViewTodoListUseCase } from '../../usecases';
 
-describe('View todo list usecase', function () {
+describe('View todo list usecase', () => {
     // The promise polyfill works in the spec files but not inside the actual app files.
     // Double polyfill.
     window['Promise'] = Promise;
 
-    let todoCache:Todo[];
+    let todoCache: Todo[];
 
     beforeEach(() => {
         todoCache = [
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2017, 11, 5),
-                "description": "Add complications web component :: AD",
-                "done": true,
-                "dueDate": new Date(2017, 11, 12)
+                dateCreated: new Date(2017, 11, 5),
+                description: 'Add complications web component :: AD',
+                done: true,
+                dueDate: new Date(2017, 11, 12)
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 1, 6),
-                "description": "Retrieve lost data :: CQ",
-                "done": false,
-                "dueDate": new Date(2018, 2, 18)
+                dateCreated: new Date(2018, 1, 6),
+                description: 'Retrieve lost data :: CQ',
+                done: false,
+                dueDate: new Date(2018, 2, 18)
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 1, 6),
-                "description": "Write release materials :: AD",
-                "done": true,
-                "dueDate": new Date(2018, 1, 6)
+                dateCreated: new Date(2018, 1, 6),
+                description: 'Write release materials :: AD',
+                done: true,
+                dueDate: new Date(2018, 1, 6)
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 1, 14),
-                "description": "Change title in common causes :: AD",
-                "done": false,
-                "dueDate": null
+                dateCreated: new Date(2018, 1, 14),
+                description: 'Change title in common causes :: AD',
+                done: false,
+                dueDate: null
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 2, 3),
-                "description": "Register app with US government because of HTTPS :: AD",
-                "done": false,
-                "dueDate": null
+                dateCreated: new Date(2018, 2, 3),
+                description: 'Register app with US government because of HTTPS :: AD',
+                done: false,
+                dueDate: null
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 2, 1),
-                "description": "Update Poster :: ISNCSCI",
-                "done": false,
-                "dueDate": null
+                dateCreated: new Date(2018, 2, 1),
+                description: 'Update Poster :: ISNCSCI',
+                done: false,
+                dueDate: null
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 2, 6),
-                "description": "Create new build :: AD",
-                "done": false,
-                "dueDate": null
+                dateCreated: new Date(2018, 2, 6),
+                description: 'Create new build :: AD',
+                done: false,
+                dueDate: null
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 2, 2),
-                "description": "Satisfaction survey :: AD",
-                "done": false,
-                "dueDate": null
+                dateCreated: new Date(2018, 2, 2),
+                description: 'Satisfaction survey :: AD',
+                done: false,
+                dueDate: null
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 2, 5),
-                "description": "Create font size requirements :: AD",
-                "done": false,
-                "dueDate": new Date(2018, 2, 6)
+                dateCreated: new Date(2018, 2, 5),
+                description: 'Create font size requirements :: AD',
+                done: false,
+                dueDate: new Date(2018, 2, 6)
             }),
             Object.assign(new Todo(), {
-                "dateCreated": new Date(2018, 2, 19),
-                "description": "Enroll with Apple Developer Program",
-                "done": false,
-                "dueDate": null
+                dateCreated: new Date(2018, 2, 19),
+                description: 'Enroll with Apple Developer Program',
+                done: false,
+                dueDate: null
             })
         ];
     });
-    
+
     // -------------------------------------------------------------------------------------
     // --- CAN RETRIEVE AND PRESENT PENDING TODOS SORTED BY DATE CREATED, DESCENDING -------
     // -------------------------------------------------------------------------------------
-    it('can retrieve and present pending todos sorted by date created, descending', function (done) {
+    it('can retrieve and present pending todos sorted by date created, descending', (done): void => {
         // Arrange
-        const statusCalled:string[] = [];
-        let todos:Todo[];
+        const statusCalled: string[] = [];
+        let todos: Todo[];
 
-        // #region iDataStoreProvider
-        const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
-        
+        // #region IDataStoreProvider
+        const dataStoreProvider =
+        jasmine.createSpyObj('IDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
+
+        dataStoreProvider
+        .updateTodoList
+        .and
+        .callFake((ts: Todo[], filter: string, sortingMechanism: string, sortAscending: boolean) => {
             todos = ts;
             return Promise.resolve();
         });
 
         // #endregion
 
-        // #region iTodoProvider
-        const todoProvider = jasmine.createSpyObj('iTodoProvider', ['getTodoList']);
+        // #region ITodoProvider
+        const todoProvider = jasmine.createSpyObj('ITodoProvider', ['getTodoList']);
         todoProvider.getTodoList.and.returnValue(Promise.resolve(todoCache));
         // #endregion
 
-        const useCase:ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
+        const useCase: ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute('pending', 'date-created', false);
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(3);
@@ -144,45 +149,50 @@ describe('View todo list usecase', function () {
             done();
         }
     });
-    
+
     // -------------------------------------------------------------------------------------
     // --- CAN RETRIEVE AND PRESENT PENDING TODOS SORTED BY DATE CREATED, ASCENDING --------
     // -------------------------------------------------------------------------------------
-    it('can retrieve and present pending todos sorted by date created, ascending', function (done) {
+    it('can retrieve and present pending todos sorted by date created, ascending', (done) => {
         // Arrange
-        const statusCalled:string[] = [];
-        let todos:Todo[];
+        const statusCalled: string[] = [];
+        let todos: Todo[];
 
-        // #region iDataStoreProvider
-        const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
-        
+        // #region IDataStoreProvider
+        const dataStoreProvider =
+            jasmine.createSpyObj('IDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
+
+        dataStoreProvider
+        .updateTodoList
+        .and
+        .callFake((ts: Todo[], filter: string, sortingMechanism: string, sortAscending: boolean) => {
             todos = ts;
             return Promise.resolve();
         });
 
         // #endregion
 
-        // #region iTodoProvider
-        const todoProvider = jasmine.createSpyObj('iTodoProvider', ['getTodoList']);
+        // #region ITodoProvider
+        const todoProvider = jasmine.createSpyObj('ITodoProvider', ['getTodoList']);
         todoProvider.getTodoList.and.returnValue(Promise.resolve(todoCache));
         // #endregion
 
-        const useCase:ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
+        const useCase: ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute('pending', 'date-created', true);
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(3);
@@ -203,45 +213,50 @@ describe('View todo list usecase', function () {
             done();
         }
     });
-    
+
     // -------------------------------------------------------------------------------------
     // --- CAN RETRIEVE AND PRESENT TODOS DONE SORTED BY DATE CREATED, DESCENDING ----------
     // -------------------------------------------------------------------------------------
-    it('can retrieve and present todos done sorted by date created, descending', function (done) {
+    it('can retrieve and present todos done sorted by date created, descending', (done): void => {
         // Arrange
-        const statusCalled:string[] = [];
-        let todos:Todo[];
+        const statusCalled: string[] = [];
+        let todos: Todo[];
 
-        // #region iDataStoreProvider
-        const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
-        
+        // #region IDataStoreProvider
+        const dataStoreProvider =
+            jasmine.createSpyObj('IDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
+
+        dataStoreProvider
+        .updateTodoList
+        .and
+        .callFake((ts: Todo[], filter: string, sortingMechanism: string, sortAscending: boolean) => {
             todos = ts;
             return Promise.resolve();
         });
 
         // #endregion
 
-        // #region iTodoProvider
-        const todoProvider = jasmine.createSpyObj('iTodoProvider', ['getTodoList']);
+        // #region ITodoProvider
+        const todoProvider = jasmine.createSpyObj('ITodoProvider', ['getTodoList']);
         todoProvider.getTodoList.and.returnValue(Promise.resolve(todoCache));
         // #endregion
 
-        const useCase:ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
+        const useCase: ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute('done', 'date-created', false);
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(3);
@@ -256,45 +271,50 @@ describe('View todo list usecase', function () {
             done();
         }
     });
-    
+
     // -------------------------------------------------------------------------------------
     // --- CAN RETRIEVE AND PRESENT TODOS DONE SORTED BY DATE CREATED, ASCENDING -----------
     // -------------------------------------------------------------------------------------
-    it('can retrieve and present todos done sorted by date created, ascending', function (done) {
+    it('can retrieve and present todos done sorted by date created, ascending', (done) => {
         // Arrange
-        const statusCalled:string[] = [];
-        let todos:Todo[];
+        const statusCalled: string[] = [];
+        let todos: Todo[];
 
-        // #region iDataStoreProvider
-        const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
-        
+        // #region IDataStoreProvider
+        const dataStoreProvider =
+        jasmine.createSpyObj('IDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
+
+        dataStoreProvider
+        .updateTodoList
+        .and
+        .callFake((ts: Todo[], filter: string, sortingMechanism: string, sortAscending: boolean) => {
             todos = ts;
             return Promise.resolve();
         });
 
         // #endregion
 
-        // #region iTodoProvider
-        const todoProvider = jasmine.createSpyObj('iTodoProvider', ['getTodoList']);
+        // #region ITodoProvider
+        const todoProvider = jasmine.createSpyObj('ITodoProvider', ['getTodoList']);
         todoProvider.getTodoList.and.returnValue(Promise.resolve(todoCache));
         // #endregion
 
-        const useCase:ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
+        const useCase: ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute('done', 'date-created', true);
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(3);
@@ -309,45 +329,50 @@ describe('View todo list usecase', function () {
             done();
         }
     });
-    
+
     // ---------------------------------------------------------------------------------
     // --- CAN RETRIEVE AND PRESENT PENDING TODOS SORTED BY DUE DATE, DESCENDING -------
     // ---------------------------------------------------------------------------------
-    it('can retrieve and present pending todos sorted by due date, descending', function (done) {
+    it('can retrieve and present pending todos sorted by due date, descending', (done) => {
         // Arrange
-        const statusCalled:string[] = [];
-        let todos:Todo[];
+        const statusCalled: string[] = [];
+        let todos: Todo[];
 
-        // #region iDataStoreProvider
-        const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
-        
+        // #region IDataStoreProvider
+        const dataStoreProvider =
+            jasmine.createSpyObj('IDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
+
+        dataStoreProvider
+        .updateTodoList
+        .and
+        .callFake((ts: Todo[], filter: string, sortingMechanism: string, sortAscending: boolean) => {
             todos = ts;
             return Promise.resolve();
         });
 
         // #endregion
 
-        // #region iTodoProvider
-        const todoProvider = jasmine.createSpyObj('iTodoProvider', ['getTodoList']);
+        // #region ITodoProvider
+        const todoProvider = jasmine.createSpyObj('ITodoProvider', ['getTodoList']);
         todoProvider.getTodoList.and.returnValue(Promise.resolve(todoCache));
         // #endregion
 
-        const useCase:ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
+        const useCase: ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute('pending', 'due-date', false);
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(3);
@@ -362,45 +387,50 @@ describe('View todo list usecase', function () {
             done();
         }
     });
-    
+
     // ---------------------------------------------------------------------------------
     // --- CAN RETRIEVE AND PRESENT PENDING TODOS SORTED BY DUE DATE, ASCENDING --------
     // ---------------------------------------------------------------------------------
-    it('can retrieve and present pending todos sorted by due date, ascending', function (done) {
+    it('can retrieve and present pending todos sorted by due date, ascending', (done) => {
         // Arrange
-        const statusCalled:string[] = [];
-        let todos:Todo[];
+        const statusCalled: string[] = [];
+        let todos: Todo[];
 
-        // #region iDataStoreProvider
-        const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
-        
+        // #region IDataStoreProvider
+        const dataStoreProvider =
+            jasmine.createSpyObj('IDataStoreProvider', ['logError', 'setStatusTo', 'updateTodoList']);
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.updateTodoList.and.callFake((ts:Todo[], filter:string, sortingMechanism:string, sortAscending:boolean) => {
+
+        dataStoreProvider
+        .updateTodoList
+        .and
+        .callFake((ts: Todo[], filter: string, sortingMechanism: string, sortAscending: boolean) => {
             todos = ts;
             return Promise.resolve();
         });
 
         // #endregion
 
-        // #region iTodoProvider
-        const todoProvider = jasmine.createSpyObj('iTodoProvider', ['getTodoList']);
+        // #region ITodoProvider
+        const todoProvider = jasmine.createSpyObj('ITodoProvider', ['getTodoList']);
         todoProvider.getTodoList.and.returnValue(Promise.resolve(todoCache));
         // #endregion
 
-        const useCase:ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
+        const useCase: ViewTodoListUseCase = new ViewTodoListUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute('pending', 'due-date', true);
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(3);

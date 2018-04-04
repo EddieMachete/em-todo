@@ -7,31 +7,31 @@ Author: Eduardo Echeverria @eddiemachete
 
 'use strict';
 
-import { iDataStoreProvider, iTodoProvider } from '../boundaries'
+import { IDataStoreProvider, ITodoProvider } from '../boundaries';
 import { Todo } from '../domain';
 
 /**
-* 'AddTodoUsecase' contains the business logic to load and display a list of todo items.
-* Steps:
-* 1. Our busy developer provides a description and initiates the process of creating a new todo with it.
-* 2. The system sets the application status to 'adding-todo'.
-* 3. The system creates a new todo:
-     {"dateCreated":Date.now,"description":description,"done":false,"dueDate":null}
-* 4. The system adds the new todo to the data storage.
-* 5. The system updates the application state.
-* 6. The system sets the application status to 'ready'.
-*/
+ * 'AddTodoUsecase' contains the business logic to load and display a list of todo items.
+ * Steps:
+ * 1. Our busy developer provides a description and initiates the process of creating a new todo with it.
+ * 2. The system sets the application status to 'adding-todo'.
+ * 3. The system creates a new todo:
+ *    {"dateCreated":Date.now,"description":description,"done":false,"dueDate":null}
+ * 4. The system adds the new todo to the data storage.
+ * 5. The system updates the application state.
+ * 6. The system sets the application status to 'ready'.
+ */
 
 export class AddTodoUseCase {
     static get is() { return 'em-todo-core.AddTodoUsecase'; }
 
     /**
-     * @param {iDataStoreProvider} dataStoreProvider
-     * @param {iTodoProvider} todoProvider
+     * @param {IDataStoreProvider} dataStoreProvider
+     * @param {ITodoProvider} todoProvider
      */
     public constructor(
-        private dataStoreProvider:iDataStoreProvider,
-        private todoProvider:iTodoProvider
+        private dataStoreProvider: IDataStoreProvider,
+        private todoProvider: ITodoProvider
     ) {}
 
     /**
@@ -39,19 +39,19 @@ export class AddTodoUseCase {
      * @param {string} description
      */
     // 1. Our busy developer provides a description and initiates the process of creating a new todo with it.
-    public execute(description:string):void {
+    public execute(description: string): void {
         // 2. The system sets the application status to 'adding-todo'.
         this.dataStoreProvider.setStatusTo('adding-todo')
         .then(() =>
             // 3. The system creates a new todo:
             //    {"dateCreated":Date.now,"description":description,"done":false,"dueDate":null}
             Object.assign(
-                new Todo(), 
+                new Todo(),
                 {
-                    "dateCreated": Date.now,
-                    "description": description,
-                    "done": false,
-                    "dueDate": null
+                    dateCreated: Date.now,
+                    description,
+                    done: false,
+                    dueDate: null
                 }
             )
         )
@@ -59,11 +59,11 @@ export class AddTodoUseCase {
             // 4. The system adds the new todo to the data storage.
             this.todoProvider.addTodo(todo)
         )
-        .then((todo:Todo) => {
+        .then((todo: Todo) => {
             // 5. The system updates the application state.
             this.dataStoreProvider.addTodo(todo);
         })
-        .catch(reason => {
+        .catch((reason) => {
             this.dataStoreProvider.logError(AddTodoUseCase.is + ' :: ' + reason);
         })
         // .finally(() => does not seem to be available yet

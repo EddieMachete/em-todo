@@ -9,44 +9,45 @@ Author: Eduardo Echeverria @eddiemachete
 
 'use strict';
 
-import { iDataStoreProvider, iTodoProvider } from '../../boundaries';
-import { ToggleTodoUseCase } from '../../usecases';
-import { Todo } from '../../domain';
 import { Promise } from 'es6-promise'; // Polyfill promise as PhantomJS is still missing it [2017-06-14]
+import { IDataStoreProvider, ITodoProvider } from '../../boundaries';
+import { Todo } from '../../domain';
+import { ToggleTodoUseCase } from '../../usecases';
 
-describe('View todo list usecase', function () {
+describe('View todo list usecase', () => {
     // The promise polyfill works in the spec files but not inside the actual app files.
     // Double polyfill.
     window['Promise'] = Promise;
-    
+
     // --------------------------------------------------
     // --- CAN TOGGLE A TODO FROM PENDING TO DONE -------
     // --------------------------------------------------
-    it('can toggle a todo from pending to done', function (done) {
+    it('can toggle a todo from pending to done', (done): void => {
         // Arrange
-        const statusCalled:string[] = [];
-        let updatedTodo:Todo = null;
-        const todoToBeToggled:Todo = Object.assign(new Todo(), {
-            "dateCreated": new Date(2017, 11, 5),
-            "description": "Add complications web component :: AD",
-            "done": false,
-            "dueDate": new Date(2017, 11, 12)
+        const statusCalled: string[] = [];
+        let updatedTodo: Todo = null;
+        const todoToBeToggled: Todo = Object.assign(new Todo(), {
+            dateCreated: new Date(2017, 11, 5),
+            description: 'Add complications web component :: AD',
+            done: false,
+            dueDate: new Date(2017, 11, 12)
         });
 
         // #region iDataStoreProvider
         const dataStoreProvider = jasmine.createSpyObj('iDataStoreProvider', ['logError', 'setStatusTo', 'updateTodo']);
-        
+
         dataStoreProvider.setStatusTo.and.callFake(
-            (status:string) => {
+            (status: string) => {
                 statusCalled.push(status);
-                
-                if (status === 'ready')
+
+                if (status === 'ready') {
                     runAsserts();
-                
+                }
+
                 return Promise.resolve();
             });
-        
-        dataStoreProvider.updateTodo.and.callFake((todo:Todo) => {
+
+        dataStoreProvider.updateTodo.and.callFake((todo: Todo): Promise<void> => {
             updatedTodo = todo;
             return Promise.resolve();
         });
@@ -55,16 +56,16 @@ describe('View todo list usecase', function () {
 
         // #region iTodoProvider
         const todoProvider = jasmine.createSpyObj('iTodoProvider', ['updateTodo']);
-        todoProvider.updateTodo.and.callFake((todo:Todo) => {
+        todoProvider.updateTodo.and.callFake((todo: Todo) => {
             return Promise.resolve(todo);
         });
         // #endregion
 
-        const useCase:ToggleTodoUseCase = new ToggleTodoUseCase(dataStoreProvider, todoProvider);
+        const useCase: ToggleTodoUseCase = new ToggleTodoUseCase(dataStoreProvider, todoProvider);
 
         // Act
         useCase.execute(todoToBeToggled);
-        
+
         // Assert
         function runAsserts() {
             expect(statusCalled.length).toBe(2);

@@ -9,8 +9,8 @@ Author: Eduardo Echeverria @eddiemachete
 
 /**
  * @module em-todo-core-boundaries
- * @description Contains all of the boundary definitions for building solutions compatible with the em-todo core library.
+ * @description Boundary definitions for building solutions compatible with the em-todo core library.
  */
 
-export { iDataStoreProvider } from './boundaries/iDataStoreProvider';
-export { iTodoProvider } from './boundaries/iTodoProvider';
+export { IDataStoreProvider } from './boundaries/IDataStoreProvider';
+export { ITodoProvider } from './boundaries/ITodoProvider';
