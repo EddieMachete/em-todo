@@ -1,0 +1,16 @@
+{
+  "name": "em-todo-core",
+  "author": "Eduardo Echeverria @eddiemachete",
+  "dependencies": {},
+  "description": "TypeScript implementation of the use Redux’s Todo list example using Clean Architecture concepts",
+  "devDependencies": {},
+  "homepage": "https://github.com/EddieMachete/em-todo/",
+  "keywords": [
+    "todo",
+    "clean architecture",
+    "typescript"
+  ],
+  "license": "https://github.com/EddieMachete/em-todo/blob/master/LICENSE",
+  "types": [],
+  "version": "0.0.1"
+}

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar color="gox">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>To-Dos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-fab bottom right>
+    <button ion-fab
+            (click)="onCreateTodo()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+  <div class="empty-message"
+       *ngIf="todos.length === 0">
+    <ion-icon name="heart"></ion-icon>
+    <div class="text-1">You are all caught up!</div>
+    <div class="text-2">There are no pending ToDos in your list</div>
+  </div>
+  <ion-list>
+    <ion-item class="todo"
+              *ngFor="let todo of todos">
+      <button ion-button
+              color="secondary"
+              [ngClass]="{'done':todo.done}"
+              (click)="onToggleTodo(todo)">
+        <ion-icon name="checkmark"></ion-icon>
+      </button>
+      <span class="text-transform-uppercase description">{{ todo.description }}</span>
+    </ion-item>
+  </ion-list>
+</ion-content>

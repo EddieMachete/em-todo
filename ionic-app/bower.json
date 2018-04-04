@@ -1,0 +1,39 @@
+{
+  "name": "rhi-ad-app",
+  "authors": [
+    "RhiTech <tech@rickhanseninstitute.org>"
+  ],
+  "description": "",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "demo"
+  ],
+  "keywords": [],
+  "license": "https://www.rickhanseninstitute.org/rhi-ad/LICENSE.txt",
+  "main": "./src/index.html",
+  "private": true,
+  "resolutions": {
+    "polymer": "^2.0.1"
+  },
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.1",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0-rc.4",
+    "app-localize-behavior": "PolymerElements/app-localize-behavior#^2.0.0",
+    "google-map": "GoogleWebComponents/google-map#^2.0.3",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^2.0.1",
+    "marked-element": "PolymerElements/marked-element#^2.1.1",
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "paper-dialog": "PolymerElements/paper-dialog#^2.0.0",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.0.0",
+    "paper-input": "PolymerElements/paper-input#^2.0.1",
+    "paper-item": "PolymerElements/paper-item#^2.0.0",
+    "paper-listbox": "PolymerElements/paper-listbox#^2.0.0",
+    "paper-styles": "PolymerElements/paper-styles#^2.0.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,8 @@
+{
+  "name": "gox-promo-app",
+  "app_id": "8614d52c",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
