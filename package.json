@@ -4,6 +4,7 @@
   "dependencies": {},
   "description": "TypeScript implementation of the use Redux’s Todo list example using Clean Architecture concepts",
   "devDependencies": {
+    "@types/jasmine": "^2.8.6",
     "del": "^2.2.2",
     "dts-generator": "^2.1.0",
     "es6-promise": "^4.1.0",
