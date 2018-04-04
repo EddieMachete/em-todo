@@ -27,9 +27,10 @@ To test run `npm test`
 To start the web console demo app run:
 1. `nvm use v6.11.3`
 2. `npm install`
-3. `npm start`
-4. Once the app is running, open `http://localhost:9000/web-console-app/index.html` on Google Chrome.
-5. Open the developer console.
+3. `tsc`
+4. `npm start`
+5. Once the app is running, open `http://localhost:9000/web-console-app/index.html` on Google Chrome.
+6. Open the developer console.
 
 You can type the following methods into the console:
 * `app.createTodo(description:string)`
@@ -37,5 +38,12 @@ You can type the following methods into the console:
 * `app.showPendingTodos()`
 * `app.toggleTodoAtPosition(position:number)`
 
+## ionic-app demo
+1. `cd ionic-app`. Navigate to the ionic-app folder to build and serve.
+2. `nvm use v6.11.3`. This is the version I was on when writting the example.
+3. `npm install`
+3. `tsc --p tsconfig.em-todo-core.json`. The em-todo-core was exported as an npm package but needs to be compiled for Ionic to use.
+4. `npm install -g ionic@latest`
+6. `ionic serve`
 
 ## Contribute
