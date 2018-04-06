@@ -35,7 +35,7 @@ Author: Eduardo Echeverria @eddiemachete
          * Nothing interesting is being done here.
          * We initialize the app with an empty array and add to it using the addTodo method.
          * In this class, however, is where we can add access to a database or local storage.
-        */
+         */
         class TodoProvider {
             constructor() {
                 this.todoList = [];
@@ -55,7 +55,7 @@ Author: Eduardo Echeverria @eddiemachete
          * This is the implementation of em-todo.core.boundaries.iDataStoreProvider.
          * Nothing interesting is being done here either.
          * This class gives us a good place where to write an adapter to use a library like Redux.
-        */
+         */
         class DataStoreProvider extends Observable {
             constructor() {
                 super();
@@ -71,7 +71,7 @@ Author: Eduardo Echeverria @eddiemachete
              * Adds a new Todo to the application data store.
              * @param {Todo} todo 
              * @return {Promise<void>}
-            */
+             */
             addTodo(todo) {
                 this.updateObservers({type: 'todo-added'});
                 return Promise.resolve();
@@ -83,7 +83,7 @@ Author: Eduardo Echeverria @eddiemachete
              * Displays an error message on the console.
              * @param {string} message
              * @return {Promise<void>}
-            */
+             */
             logError(message) {
                 console.log(`ERROR: ${message}`);
                 return Promise.resolve();
@@ -93,7 +93,7 @@ Author: Eduardo Echeverria @eddiemachete
              * Updates the application status.
              * @param {string} status
              * @return {Promise<void>}
-            */
+             */
             setStatusTo(status) {
                 this.updateObservers({type: 'status', payload: {status}});
 
@@ -103,7 +103,7 @@ Author: Eduardo Echeverria @eddiemachete
             /**
              * @param {Todo} todo
              * @return {Promise<void>}
-            */
+             */
             updateTodo(todo) {
                 this.updateObservers({type: 'todo-updated'});
                 return Promise.resolve();
@@ -115,7 +115,7 @@ Author: Eduardo Echeverria @eddiemachete
              * @param {string} sortingMechanism
              * @param {boolean} sortAscending
              * @return {Promise<void>}
-            */
+             */
             updateTodoList(todos, filter, sortingMechanism, sortAscending) {
                 this.updateObservers({type: 'todos', payload: {todos}});
 
@@ -128,8 +128,7 @@ Author: Eduardo Echeverria @eddiemachete
          * It implements em-todo.core.boundaries.iDataStoreProvider.
          * Nothing special is being currently done when updating the application data store.
          * Something like Redux could be easily added to handle the state requests.
-        */
-        // 
+         */
         class App {
             constructor() {
                 this.todos = [];
@@ -143,7 +142,7 @@ Author: Eduardo Echeverria @eddiemachete
             
             /**
              * Displays, on the console, a list of all of the todos entered, from newer to older.
-            */ 
+             */ 
             showTodos() {
                 new ViewTodoListUseCase(this.dataStoreProvider, this.todoProvider)
                 .execute('all', 'date-created', true);
@@ -151,7 +150,7 @@ Author: Eduardo Echeverria @eddiemachete
             
             /**
              * Displays, on the console, only the pendig todos entered, from newer to older.
-            */ 
+             */ 
             showPendingTodos() {
                 new ViewTodoListUseCase(this.dataStoreProvider, this.todoProvider)
                 .execute('pending', 'date-created', true);
@@ -160,7 +159,7 @@ Author: Eduardo Echeverria @eddiemachete
             /**
              * Adds a new todo to the list.
              * @param {string} description
-            */ 
+             */ 
             createTodo(description) {
                 new AddTodoUseCase(this.dataStoreProvider, this.todoProvider)
                 .execute(description);
@@ -169,7 +168,7 @@ Author: Eduardo Echeverria @eddiemachete
             /**
              * Switches the done flag of the todo at the specified position.
              * @param {number} position Must be a number between 1 and the length of the todo list.
-            */ 
+             */ 
             toggleTodoAtPosition(position) {
                 if (position < 1 || position > this.todos.length) {
                     return;
@@ -182,7 +181,7 @@ Author: Eduardo Echeverria @eddiemachete
             /**
              * Event handler for changes to the todo list in the datastore.
              * @param {{type:string, payload:{todos:Todo[]}, sender:object}} e Event arguments
-            */
+             */
             onTodosChanged(e) {
                 this.todos = e.payload.todos;
 
